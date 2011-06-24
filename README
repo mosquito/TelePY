@@ -1,0 +1,68 @@
+WTF:
+    This control system VOIP Asterisk server for offices. 
+    It is written in python/django.
+    
+    *** WARNING! Need internationalization, since the entire web interface is presented in Russian language. 
+
+Features: 
+    - Supports upload configs isc-dhcp server (wget http://serveraddress/provision/dhcpd.conf) 
+    - Support Autoprovision XML (3 profile ready for devices Linksys SPA8000, SPA2102 and PAP2T) 
+    - Manage extensions 
+    - Management of SIP accounts 
+    - View CDR 
+    - Management of contexts 
+    - Manage queue 
+    - Manage Voicemail 
+    - Control port for devices 
+    - Voicemail Module (scripts to convert added later) 
+    - Module to convert audio files of phrases or using Google Translate 
+    - Listening to recordings of conversations module CDR 
+
+Integration:
+1. Install Asterisk and Database (Postgresql, Mysql)
+2. Edit extconfig.conf:
+    [settings]
+    sipusers => pgsql,asterisk,telephony_numbers
+    sippeers => pgsql,asterisk,telephony_numbers
+    voicemail => pgsql,asterisk,telephony_voicemail
+    extensions => pgsql,asterisk,telephony_extensions
+    queues => pgsql,asterisk,telephony_queue
+    queue_members => pgsql,asterisk,telephony_queuemember
+    queue_log => pgsql,asterisk,telephony_queuelog
+3. Configure database on Asterisk:
+    [general]
+    dbhost=127.0.0.1
+    dbport=5432
+    dbname=asterisk
+    dbuser=asterisk
+    dbpass=MYPASSWD
+    requirements=warn
+4. Configure Database for CDR:
+    [global]
+    hostname=localhost
+    port=5432
+    dbname=asterisk
+    password=oNeCu8dJ1dGSs
+    user=asterisk
+    table=telephony_cdr
+    encoding=UTF8
+5. Run ./manage.py syncdb and create root account
+6. Add macro and contexts in extension.conf:
+    [incoming]
+    include => global
+    switch => Realtime/incoming@extensions
+
+    [default]
+    switch => Realtime/default@extensions
+
+    [macro-monitor]
+    exten => s,1,Set(CALLFILENAME=/mnt/records/tmp/${UNIQUEID})
+    exten => s,n,Set(MONITOR_EXEC=/opt/bin/wav2mp3)
+    exten => s,n,Monitor(wav,${CALLFILENAME},mb)
+    exten => s,n,Dial(${ARG1}/${MACRO_EXTEN},,tTfg)
+    exten => s,n,StopMonitor()
+    exten => s,n,HangUp()
+7. Enjoy
+
+Unfortunately little time for more documentation. Therefore, questions please contact me.
+
