@@ -1,0 +1,300 @@
+<<VOIP CONFIG FILE>>Version:2.{{ date|date:'ymdHi' }}
+
+<GLOBAL CONFIG MODULE>
+Static IP          :{{ data.global_config_module.static_ip }}
+Static NetMask     :{{ data.global_config_module.static_netmask }}
+Static GateWay     :{{ data.global_config_module.static_gateway }}
+Default Protocol   :{{ data.global_config_module.default_protocol }}
+Primary DNS        :{{ data.global_config_module.primary_dns }}
+Alter DNS          :{{ data.global_config_module.alter_dns }}
+DHCP Mode          :{{ data.global_config_module.dhcp_mode }}
+DHCP Dns           :{{ data.global_config_module.dhcp_dns }}
+Domain Name        :{{ data.global_config_module.domain_name }}
+Host Name          :{{ data.global_config_module.host_name }}
+Pppoe Mode         :{{ data.global_config_module.pppoe_mode }}
+HTL Start Port     :{{ data.global_config_module.htl_start_port }}
+HTL Port Number    :{{ data.global_config_module.htl_port_number }}
+SNTP Server        :{{ data.global_config_module.sntp_server }}
+Enable SNTP        :{{ data.global_config_module.enable_sntp }}
+Time Zone          :{{ data.global_config_module.time_zone }}
+Enable Daylight    :{{ data.global_config_module.enable_daylight }}
+SNTP Time Out      :{{ data.global_config_module.sntp_time_out }}
+DayLight Shift Min :{{ data.global_config_module.daylight_shift_min }}
+DayLight Start Mon :{{ data.global_config_module.daylight_start_mon }}
+DayLight Start Week:{{ data.global_config_module.daylight_start_week }}
+DayLight Start Wday:{{ data.global_config_module.daylight_start_wday }}
+DayLight Start Hour:{{ data.global_config_module.daylight_start_hour }}
+DayLight Start Min :{{ data.global_config_module.daylight_start_min }}
+DayLight End Mon   :{{ data.global_config_module.daylight_end_mon }}
+DayLight End Week  :{{ data.global_config_module.daylight_end_week }}
+DayLight End Wday  :{{ data.global_config_module.daylight_end_wday }}
+DayLight End Hour  :{{ data.global_config_module.daylight_end_hour }}
+DayLight End Min   :{{ data.global_config_module.daylight_end_min }}
+MMI Set            :{{ data.global_config_module.mmi_set }}
+MTU Length         :{{ data.global_config_module.mtu_length }}
+Register WD Time   :{{ data.global_config_module.register_wd_time }}
+
+<TELE CONFIG MODULE>
+Dial End With #    :{{ data.tele_config_module.dial_end_with }}
+Dial Fixed Length  :{{ data.tele_config_module.dial_fixed_length }}
+Fixed Length       :{{ data.tele_config_module.fixed_length }}
+Dial With Timeout  :{{ data.tele_config_module.dial_with_timeout }}
+Dial Timeout value :{{ data.tele_config_module.dial_timeout_value }}
+Dialpeer With Line :{{ data.tele_config_module.dialpeer_with_line }}
+Poll Sequence      :{{ data.tele_config_module.poll_sequence }}
+Accept Any Call    :{{ data.tele_config_module.accept_any_call }}
+Phone Prefix       :{{ data.tele_config_module.phone_prefix }}
+Local Area Code    :{{ data.tele_config_module.local_area_code }}
+IP call network    :{{ data.tele_config_module.ip_call_network }}
+--Port Config--    :
+P1 No Disturb      :{{ data.tele_config_module.p1_no_disturb }}
+P1 Mute            :{{ data.tele_config_module.p1_mute }}
+P1 No Dial Out     :{{ data.tele_config_module.p1_no_dial_out }}
+P1 No Empty Calling:{{ data.tele_config_module.p1_no_empty_calling }}
+P1 Enable CallerId :{{ data.tele_config_module.p1_enable_callerid }}
+P1 Forward Service :{{ data.tele_config_module.p1_forward_service }}
+P1 SIP TransNum    :{{ data.tele_config_module.p1_sip_transnum }}
+P1 SIP TransAddr   :{{ data.tele_config_module.p1_sip_transaddr }}
+P1 SIP TransPort   :{{ data.tele_config_module.p1_sip_transport }}
+P1 CallWaiting     :{{ data.tele_config_module.p1_callwaiting }}
+P1 CallTransfer    :{{ data.tele_config_module.p1_calltransfer }}
+P1 Call3Way        :{{ data.tele_config_module.p1_call3way }}
+P1 AutoAnswer      :{{ data.tele_config_module.p1_autoanswer }}
+P1 No Answer Time  :{{ data.tele_config_module.p1_no_answer_time }}
+P1 Warm Line Time  :{{ data.tele_config_module.p1_warm_line_time }}
+P1 Extention No.   :{{ data.tele_config_module.p1_extension_no }}
+P1 Auto HandDown   :{{ data.tele_config_module.p1_auto_handdown }}
+P1 Auto Handdown Ti:{{ data.tele_config_module.p1_auto_handdown_ti }}
+P1 Hotline Num     :{{ data.tele_config_module.p1_auto_hotline_num }}
+P1 Record Server   :{{ data.tele_config_module.p1_record_server }}
+P1 Enable Record   :{{ data.tele_config_module.p1_enable_record }}
+P1 Busy N/A Line   :{{ data.tele_config_module.p1_busy_na_line }}
+
+<DSP CONFIG MODULE>
+Signal Standard    :{{ data.dsp_config_module.signal_standard}}
+Handdown Time      :{{ data.dsp_config_module.handdown_time }}
+G729 Payload Length:{{ data.dsp_config_module.g729_payload_length }}
+G723 Bit Rate      :{{ data.dsp_config_module.g723_bit_rate }}
+G722 Timestamps    :{{ data.dsp_config_module.g722_timestamps }}
+VAD                :{{ data.dsp_config_module.vad }}
+Ring Type          :{{ data.dsp_config_module.ring_type }}
+Dtmf Payload Type  :{{ data.dsp_config_module.dtmf_payload_type }}
+Disable Handfree   :{{ data.dsp_config_module.disable_handfree }}
+RTP PROBE          :{{ data.dsp_config_module.rtp_probe }}
+--Port Config--    :
+P1 Output Vol      :{{ data.dsp_config_module.p1_output_vol }}
+P1 Input Vol       :{{ data.dsp_config_module.p1_input_vol }}
+P1 HandFree Vol    :{{ data.dsp_config_module.p1_handfree_vol }}
+P1 RingTone Vol    :{{ data.dsp_config_module.p1_ringtone_vol }}
+P1 Codec           :{{ data.dsp_config_module.p1_codec }}
+P1 Voice Record    :{{ data.dsp_config_module.p1_voice_record }}
+P1 Record Playing  :{{ data.dsp_config_module.p1_record_playing }}
+P1 UserDef Voice   :{{ data.dsp_config_module.p1_userdef_voice }}
+P1 First Codec     :{{ data.dsp_config_module.p1_first_codec }}
+P1 Second Codec    :{{ data.dsp_config_module.p1_second_codec }}
+P1 Third Codec     :{{ data.dsp_config_module.p1_third_codec }}
+P1 Forth Codec     :{{ data.dsp_config_module.p1_forth_codec }}
+P1 Fifth Codec     :{{ data.dsp_config_module.p1_fifth_codec }}
+P1 Sixth Codec     :{{ data.dsp_config_module.p1_sixth_codec }}
+
+<SIP CONFIG MODULE>
+SIP  Port          :{{ data.sip_config_module.sip_port }}
+Stun Address       :{{ data.sip_config_module.stun_address }}
+Stun Port          :{{ data.sip_config_module.stun_port }}
+Stun Effect Time   :{{ data.sip_config_module.stun_effect_time }}
+SIP  Differv       :{{ data.sip_config_module.sip_differv }}
+Extern Address     :{{ data.sip_config_module.extern_address }}
+Url Convert        :{{ data.sip_config_module.url_convert }}
+Reg Retry Time     :{{ data.sip_config_module.reg_retry_time }}
+Strict BranchPrefix:{{ data.sip_config_module.strict_branchprefix }}
+--SIP Line List--  :
+SIP1 Phone Number  :{{ data.sip_config_module.sip1_register_user }}
+SIP1 Display Name  :{{ data.sip_config_module.sip1_register_user }}
+SIP1 Sip Name      :{{ data.sip_config_module.sip1_register_user }}
+SIP1 Register Addr :{{ data.sip_config_module.sip1_register_addr }}
+SIP1 Register Port :{{ data.sip_config_module.sip1_register_port }}
+SIP1 Register User :{{ data.sip_config_module.sip1_register_user }}
+SIP1 Register Pwd  :{{ data.sip_config_module.sip1_register_pwd }}
+SIP1 Register TTL  :{{ data.sip_config_module.sip1_register_ttl }}
+SIP1 Enable Reg    :{{ data.sip_config_module.sip1_enable_reg }}
+SIP1 Proxy Addr    :{{ data.sip_config_module.sip1_proxy_addr }}
+SIP1 Proxy Port    :{{ data.sip_config_module.sip1_proxy_port }}
+SIP1 Proxy User    :{{ data.sip_config_module.sip1_proxy_user }}
+SIP1 Proxy Pwd     :{{ data.sip_config_module.sip1_proxy_pwd }}
+SIP1 Signal Enc    :{{ data.sip_config_module.sip1_signal_enc }}
+SIP1 Signal Key    :{{ data.sip_config_module.sip1_signal_key }}
+SIP1 Media Enc     :{{ data.sip_config_module.sip1_media_enc }}
+SIP1 Media Key     :{{ data.sip_config_module.sip1_media_key }}
+SIP1 Local Domain  :{{ data.sip_config_module.sip1_local_domain }}
+SIP1 Fwd Service   :{{ data.sip_config_module.sip1_fwd_service }}
+SIP1 Ring Type     :{{ data.sip_config_module.sip1_ring_type }}
+SIP1 Fwd Number    :{{ data.sip_config_module.sip1_fwd_number }}
+SIP1 Hotline Number:{{ data.sip_config_module.sip1_hotline_number }}
+SIP1 Enable Detect :{{ data.sip_config_module.sip1_enable_detect }}
+SIP1 Detect TTL    :{{ data.sip_config_module.sip1_detect_ttl }}
+SIP1 Server Type   :{{ data.sip_config_module.sip1_server_type }}
+SIP1 User Agent    :{{ data.sip_config_module.sip1_user_agent }}
+SIP1 PRACK         :{{ data.sip_config_module.sip1_prack }}
+SIP1 KEEP AUTH     :{{ data.sip_config_module.sip1_keep_auth }}
+SIP1 Session Timer :{{ data.sip_config_module.sip1_session_timer }}
+SIP1 Gruu          :{{ data.sip_config_module.sip1_gruu }}
+SIP1 DTMF Mode     :{{ data.sip_config_module.sip1_dtmf_mode }}
+SIP1 Use Stun      :{{ data.sip_config_module.sip1_use_stun }}
+SIP1 Via Port      :{{ data.sip_config_module.sip1_via_port }}
+SIP1 Subscribe     :{{ data.sip_config_module.sip1_subscribe }}
+SIP1 Sub Expire    :{{ data.sip_config_module.sip1_sub_expire }}
+SIP1 Single Codec  :{{ data.sip_config_module.sip1_single_codec }}
+SIP1 CLIR          :{{ data.sip_config_module.sip1_clir }}
+SIP1 Strict Proxy  :{{ data.sip_config_module.sip1_strict_proxy }}
+SIP1 Direct Contact:{{ data.sip_config_module.sip1_direct_contact }}
+SIP1 History Info  :{{ data.sip_config_module.sip1_history_info }}
+SIP1 DNS SRV       :{{ data.sip_config_module.sip1_dns_srv }}
+SIP1 Transfer Expir:{{ data.sip_config_module.sip1_transfer_expir }}
+SIP1 Ban Anonymous :{{ data.sip_config_module.sip1_ban_anonymous }}
+SIP1 Dial Without R:{{ data.sip_config_module.sip1_dial_without_r }}
+SIP1 DisplayName Qu:{{ data.sip_config_module.sip1_displayname_qu }}
+SIP1 Presence Mode :{{ data.sip_config_module.sip1_presence_mode }}
+SIP1 RFC Ver       :{{ data.sip_config_module.sip1_rfc_ver }}
+SIP1 Signal Port   :{{ data.sip_config_module.sip1_signal_port }}
+SIP1 Transport     :{{ data.sip_config_module.sip1_transport }}
+SIP1 Use Mixer     :{{ data.sip_config_module.sip1_use_mixer }}
+SIP1 Mixer Uri     :{{ data.sip_config_module.sip1_mixer_uri }}
+SIP1 Long Contact  :{{ data.sip_config_module.sip1_long_contact }}
+SIP1 Auto TCP      :{{ data.sip_config_module.sip1_auto_tcp }}
+SIP1 Click to Talk :{{ data.sip_config_module.sip1_click_to_talk }}
+SIP1 Mwi No.       :{{ data.sip_config_module.sip1_mwi_no }}
+SIP1 Park No.      :{{ data.sip_config_module.sip1_park_no }}
+SIP1 Help No.      :{{ data.sip_config_module.sip1_help_no }}
+SIP2 Phone Number  :{{ data.sip_config_module.sip2_register_user }}
+SIP2 Display Name  :{{ data.sip_config_module.sip2_register_user }}
+SIP2 Sip Name      :{{ data.sip_config_module.sip2_register_user }}
+SIP2 Register Addr :{{ data.sip_config_module.sip2_register_addr }}
+SIP2 Register Port :{{ data.sip_config_module.sip2_register_port }}
+SIP2 Register User :{{ data.sip_config_module.sip2_register_user }}
+SIP2 Register Pwd  :{{ data.sip_config_module.sip2_register_pwd }}
+SIP2 Register TTL  :{{ data.sip_config_module.sip2_register_ttl }}
+SIP2 Enable Reg    :{{ data.sip_config_module.sip2_enable_reg }}
+SIP2 Proxy Addr    :{{ data.sip_config_module.sip2_proxy_addr }}
+SIP2 Proxy Port    :{{ data.sip_config_module.sip2_proxy_port }}
+SIP2 Proxy User    :{{ data.sip_config_module.sip2_proxy_user }}
+SIP2 Proxy Pwd     :{{ data.sip_config_module.sip2_proxy_pwd }}
+SIP2 Signal Enc    :{{ data.sip_config_module.sip2_signal_enc }}
+SIP2 Signal Key    :{{ data.sip_config_module.sip2_signal_key }}
+SIP2 Media Enc     :{{ data.sip_config_module.sip2_media_enc }}
+SIP2 Media Key     :{{ data.sip_config_module.sip2_media_key }}
+SIP2 Local Domain  :{{ data.sip_config_module.sip2_local_domain }}
+SIP2 Fwd Service   :{{ data.sip_config_module.sip2_fwd_service }}
+SIP2 Ring Type     :{{ data.sip_config_module.sip2_ring_type }}
+SIP2 Fwd Number    :{{ data.sip_config_module.sip2_fwd_number }}
+SIP2 Hotline Number:{{ data.sip_config_module.sip2_hotline_number }}
+SIP2 Enable Detect :{{ data.sip_config_module.sip2_enable_detect }}
+SIP2 Detect TTL    :{{ data.sip_config_module.sip2_detect_ttl }}
+SIP2 Server Type   :{{ data.sip_config_module.sip2_server_type }}
+SIP2 User Agent    :{{ data.sip_config_module.sip2_user_agent }}
+SIP2 PRACK         :{{ data.sip_config_module.sip2_prack }}
+SIP2 KEEP AUTH     :{{ data.sip_config_module.sip2_keep_auth }}
+SIP2 Session Timer :{{ data.sip_config_module.sip2_session_timer }}
+SIP2 Gruu          :{{ data.sip_config_module.sip2_gruu }}
+SIP2 DTMF Mode     :{{ data.sip_config_module.sip2_dtmf_mode }}
+SIP2 Use Stun      :{{ data.sip_config_module.sip2_use_stun }}
+SIP2 Via Port      :{{ data.sip_config_module.sip2_via_port }}
+SIP2 Subscribe     :{{ data.sip_config_module.sip2_subscribe }}
+SIP2 Sub Expire    :{{ data.sip_config_module.sip2_sub_expire }}
+SIP2 Single Codec  :{{ data.sip_config_module.sip2_single_codec }}
+SIP2 CLIR          :{{ data.sip_config_module.sip2_clir }}
+SIP2 Strict Proxy  :{{ data.sip_config_module.sip2_strict_proxy }}
+SIP2 Direct Contact:{{ data.sip_config_module.sip2_direct_contact }}
+SIP2 History Info  :{{ data.sip_config_module.sip2_history_info }}
+SIP2 DNS SRV       :{{ data.sip_config_module.sip2_dns_srv }}
+SIP2 Transfer Expir:{{ data.sip_config_module.sip2_transfer_expir }}
+SIP2 Ban Anonymous :{{ data.sip_config_module.sip2_ban_anonymous }}
+SIP2 Dial Without R:{{ data.sip_config_module.sip2_dial_without_r }}
+SIP2 DisplayName Qu:{{ data.sip_config_module.sip2_displayname_qu }}
+SIP2 Presence Mode :{{ data.sip_config_module.sip2_presence_mode }}
+SIP2 RFC Ver       :{{ data.sip_config_module.sip2_rfc_ver }}
+SIP2 Signal Port   :{{ data.sip_config_module.sip2_signal_port }}
+SIP2 Transport     :{{ data.sip_config_module.sip2_transport }}
+SIP2 Use Mixer     :{{ data.sip_config_module.sip2_use_mixer }}
+SIP2 Mixer Uri     :{{ data.sip_config_module.sip2_mixer_uri }}
+SIP2 Long Contact  :{{ data.sip_config_module.sip2_long_contact }}
+SIP2 Auto TCP      :{{ data.sip_config_module.sip2_auto_tcp }}
+SIP2 Click to Talk :{{ data.sip_config_module.sip2_click_to_talk }}
+SIP2 Mwi No.       :{{ data.sip_config_module.sip2_mwi_no }}
+SIP2 Park No.      :{{ data.sip_config_module.sip2_park_no }}
+SIP2 Help No.      :{{ data.sip_config_module.sip2_help_no }}
+
+<PPPoE CONFIG MODULE>
+Pppoe User         :{{ data.pppoe_config_module.pppoe_user }}
+Pppoe Password     :{{ data.pppoe_config_module.pppoe_password }}
+Pppoe Service      :{{ data.pppoe_config_module.pppoe_service }}
+Pppoe Ip Address   :{{ data.pppoe_config_module.pppoe_ip_address }}
+
+<MMI CONFIG MODULE>
+Telnet Port        :{{ data.mmi_config_module.telnet_port }}
+Web Port           :{{ data.mmi_config_module.web_port }}
+Remote Control     :{{ data.mmi_config_module.remote_control }}
+Enable MMI Filter  :{{ data.mmi_config_module.enable_mmi_filter }}
+Telnet Prompt      :{{ data.mmi_config_module.telnet_prompt }}
+--MMI Account--    :
+Account1 Name      :{{ data.mmi_config_module.account1_name }}
+Account1 Pass      :{{ data.mmi_config_module.account1_pass }}
+Account1 Level     :{{ data.mmi_config_module.account1_level }}
+Account2 Name      :{{ data.mmi_config_module.account2_name }}
+Account2 Pass      :{{ data.mmi_config_module.account2_pass }}
+Account2 Level     :{{ data.mmi_config_module.account2_level}}
+
+<QOS CONFIG MODULE>
+Enable VLAN        :{{ data.qos_config_module.enable_vlan }}
+Enable diffServ    :{{ data.qos_config_module.enable_diffserv }}
+DiffServ Value     :{{ data.qos_config_module.diffserv_value }}
+VLAN ID            :{{ data.qos_config_module.vlan_id }}
+802.1P Value       :{{ data.qos_config_module.802_1p_value }}
+VLAN Recv Check    :{{ data.qos_config_module.vlan_recv_check }}
+Data VLAN ID       :{{ data.qos_config_module.data_vlan_id }}
+Data 802.1P Value  :{{ data.qos_config_module.data_802_1p_value }}
+Diff Data Voice    :{{ data.qos_config_module.diff_data_voice }}
+Enable PVID        :{{ data.qos_config_module.enable_pvid }}
+PVID Value         :{{ data.qos_config_module.pvid_value }}
+
+<DEBUG CONFIG MODULE>
+MGR Trace Level    :{{ data.debug_config_module.mgr_trace_level }}
+SIP Trace Level    :{{ data.debug_config_module.sip_trace_level }}
+Trace File Info    :{{ data.debug_config_module.trace_file_info }}
+
+<AAA CONFIG MODULE>
+Enable Syslog      :{{ data.aaa_config_module.enable_syslog }}
+Syslog address     :{{ data.aaa_config_module.syslog_address }}
+Syslog port        :{{ data.aaa_config_module.syslog_port }}
+
+<ACCESS CONFIG MODULE>
+Enable In Access   :{{ data.access_config_module.enable_in_access }}
+Enable Out Access  :{{ data.access_config_module.enable_out_access }}
+
+<PHONE CONFIG MODULE>
+Keypad Password    :{{ data.phone_config_module.keypad_password }}
+LCD Logo           :{{ data.phone_config_module.lcd_logo }}
+Time 12hours       :{{ data.phone_config_module.time_12hours }}
+MWI Number         :{{ data.phone_config_module.mwi_number }}
+Display PhoneNum   :{{ data.phone_config_module.display_phonenum }}
+Memory Key 1       :{{ data.phone_config_module.memory_key_1 }}
+Memory Key 2       :{{ data.phone_config_module.memory_key_2 }}
+Memory Key 3       :{{ data.phone_config_module.memory_key_3 }}
+Memory Key 4       :{{ data.phone_config_module.memory_key_4 }}
+Memory Key 5       :{{ data.phone_config_module.memory_key_5 }}
+Memory Key 6       :{{ data.phone_config_module.memory_key_6 }}
+Memory Key 7       :{{ data.phone_config_module.memory_key_7 }}
+Memory Key 8       :{{ data.phone_config_module.memory_key_8 }}
+Memory Key 9       :{{ data.phone_config_module.memory_key_9 }}
+Memory Key 10      :{{ data.phone_config_module.memory_key_10 }}
+
+<AUTOUPDATE CONFIG MODULE>
+Download Username  :{{ data.autoupdate_config_module.download_username }}
+Download password  :{{ data.autoupdate_config_module.download_password }}
+Download Server IP :{{ data.autoupdate_config_module.download_server_ip }}
+Config File Name   :{{ data.autoupdate_config_module.config_file_name }}
+Config File Key    :{{ data.autoupdate_config_module.config_file_key }}
+Download Protocol  :{{ data.autoupdate_config_module.download_protocol }}
+Download Mode      :{{ data.autoupdate_config_module.download_mode }}
+Download Interval  :{{ data.autoupdate_config_module.download_interval }}
+DHCP Option 66     :{{ data.autoupdate_config_module.dhcp_option_66 }}
+<<END OF FILE>>
