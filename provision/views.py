@@ -8,6 +8,12 @@ from django.shortcuts import get_object_or_404
 from ipaddr import IPv4
 from sql import select
 
+class Dict(dict):
+    def __new__(cls, *args, **kwargs):
+        self = dict.__new__(cls, *args, **kwargs)
+        self.__dict__ = self
+        return self
+
 def provision(request, alias, mac, sn, *args, **kwargs):
     mac_norm=compile('[\:\-\.\,\=\+\;\']{0,}'.join(['([0-9a-fA-F]{1,2})' for i in range(6)]))
     nmac=[i.lower() for i in mac_norm.findall(mac)[0]]
@@ -17,8 +23,8 @@ def provision(request, alias, mac, sn, *args, **kwargs):
         return HttpResponseNotFound()
 
     obj = Devices.objects.get(enable=True, mac=nmac, sn=sn)
-    config = DefaultConfig.objects.filter(dtype=obj.type).order_by('param')
-    
+    config = DefaultConfig.objects.filter(dtype=obj.type)
+
     data=dict()
 
     for i in config:
@@ -33,23 +39,23 @@ def provision(request, alias, mac, sn, *args, **kwargs):
             value = ''
         data[i.section][i.param] = value
 
-    config = Configs.objects.filter(device=obj).order_by('param').all()
+    config = Configs.objects.filter(device=obj).all()
 
     for i in config:
         value = i.value
         if 'Null' in value:
             value = ''
         data[i.section][i.param] = value
-        print i.param, value
 
-    outdata = dict()
+    outdata = Dict()
 
     for section in data.keys():
-        outdata[section]=list()
-        for param, value in data[section].items():
-            outdata[section].append([param, value])
+        outdata[section.lower().replace(" ", '_')]=Dict()
 
-    return render(obj.type.template, {'data': outdata}, mimetype='text/plain')
+        for param, value in data[section].items():
+            outdata[section.lower().replace(" ", '_')][param.lower().replace(' ', '_')] = value
+
+    return render(obj.type.template, {'data': outdata,'date': dt.now()}, mimetype='text/plain')
 
 def dns(request, *args, **kwargs):
     cursor = connection.cursor()

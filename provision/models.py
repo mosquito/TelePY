@@ -61,6 +61,9 @@ class Nets(Model):
     lease_time = PositiveIntegerField(blank=False, null=False, verbose_name=u'время аренды', db_index=True)
     max_lease_time = PositiveIntegerField(blank=False, null=False, verbose_name=u'максимальное время аренды', db_index=True)
     tftp = IPAddressField(blank=False, null=False, verbose_name=u'TFTP сервер', db_index=True)
+    range_net = BooleanField(default=True, blank=False, verbose_name=u'свободно выдаваемые адреса')
+    range_start = IPAddressField(blank=True, null=False, verbose_name=u'начало диапазона', db_index=True)
+    range_end = IPAddressField(blank=True, null=False, verbose_name=u'конец диапазона', db_index=True)
 
     class Meta:
         unique_together = (('name',), ('start','net',))

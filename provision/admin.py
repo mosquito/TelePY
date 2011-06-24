@@ -56,9 +56,9 @@ class TypesAdmin(admin.ModelAdmin):
         # инициализирую словарь со схемой
         scheme_dict=dict()
         # регекс для секции
-        re['section']=compile('\[(?P<section>\S+)\]\n')
+        re['section']=compile('\[(?P<section>[\w\s]+)\]\n')
         # регекс для параметров
-        re['data']=compile('^(?P<param>[0-9\w\_\-\+\.\,]+)=(?P<value>.{0,})\n')
+        re['data']=compile('^(?P<param>[0-9\s\w\_\-\+\.\,]+)=(?P<value>.{0,})\n')
 
         # погнали по списку схемы
         for item in scheme:
@@ -74,7 +74,7 @@ class TypesAdmin(admin.ModelAdmin):
                 # регексим в l строку, на выходе по идее словарь из dict(param=str(), value=str())
                 l=re['data'].findall(item)[0]
                 # суем в текущую секцию
-                scheme_dict[section][l[0]]=l[1]
+                scheme_dict[section][l[0]]={ 'data': l[1], }
 
         # инициализирую словарь с инсертами
         insert=list()
@@ -92,7 +92,7 @@ class TypesAdmin(admin.ModelAdmin):
                     # ... то Null
                     val='Null'
                 # создаю строку из dtype.id, секции, параметра и значения
-                t.append('(\'%s\', \'%s\', \'%s\', \'%s\')' % (obj.name, section, param, val))
+                t.append('(\'%s\', \'%s\', \'%s\', \'%s\')' % (obj.name, section, param, val['data'],))
             insert.append('insert into provision_defaultconfig (dtype_id, section, param, value) values '+", ".join(t)+';')
         for query in insert:
             cursor = connection.cursor()
@@ -112,12 +112,12 @@ class NetsAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class DefaultConfigAdmin(admin.ModelAdmin):
-    list_display = ('dtype', 'section', 'param', 'value', )
+    list_display = ('dtype', 'section', 'param', 'value',)
     list_editable = ('section', 'param', 'value',)
     list_display_links = ('dtype',)
     ordering = ('dtype','param',)
     list_filter = ('dtype',)
-    search_fields = ('param','value')
+    search_fields = ('param','value', 'section')
 
 class DeviceAdmin(admin.ModelAdmin):
 
@@ -336,28 +336,6 @@ class PortsAdmin(admin.ModelAdmin):
                 login = ''
                 password = ''
 
-            depend=list()
-            for dep in config[str(obj.port)]['depends'].split(','):
-                param, value=dep.split('*')
-                novalue = ''
-                if '$' in value:
-                    value=eval(value[1:])
-                elif '|' in value:
-                    novalue=value.split('|')[1]
-                    value=value.split('|')[0]
-
-                depend.append((param, value, novalue))
-
-            for param, value , novalue in depend:
-                count = Configs.objects.filter(param=param, device=obj.device).count()
-                if count > 0:
-                    sql = Configs.objects.get(device=obj.device, param=param)
-                    sql.value=value
-                    sql.save()
-                else:
-                    sql = Configs(device=obj.device, section=section, param=param, value=value)
-                    sql.save()
-
             # Если номер отвязан совсем
             if isinstance(obj.user, type(None)):
                 # Проверяем были ли конфиг включения
@@ -379,11 +357,6 @@ class PortsAdmin(admin.ModelAdmin):
                     query = Configs.objects.get(device=obj.device, section=section, param=password_param)
                     query.delete()
                 # Чистка зависимостей
-                for param, value , novalue in depend:
-                    try:
-                        Configs.objects.get(param=param, device=obj.device).delete()
-                    except:
-                        pass
 
                 obj.save()
                 system("curl --connect-timeout 2 --digest -u %s:%s \"http://%s/admin/resync\"" % (devuser, devpassword, ip))
