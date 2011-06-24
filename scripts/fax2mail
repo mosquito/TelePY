@@ -1,0 +1,112 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+
+from datetime import datetime
+from smtplib import SMTP
+from re import compile
+from os import path, system, listdir
+from sys import argv, exit
+
+faxdir = '/mnt/records/fax'
+
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+from email.MIMEText import MIMEText
+from email.Utils import COMMASPACE, formatdate
+from email import Encoders
+from datetime import datetime
+
+from urllib2 import urlopen
+
+def send_mail(send_from, send_to, subject, text, files=[], server="localhost", port=25, username=str(), secret=str(), auth=False, tls=False, reply_to=None, bcc=list()):
+    assert type(send_to)==list
+    assert type(files)==list
+
+    msg = MIMEMultipart()
+    msg['From'] = send_from
+    msg['To'] = COMMASPACE.join(send_to)
+    msg['Date'] = formatdate(localtime=True)
+    msg['Subject'] = subject.encode('utf-8')
+
+    if len(bcc):
+        msg['bcc'] = COMMASPACE.join(bcc)
+
+    if reply_to != None:
+        msg['Reply-To'] = reply_to
+
+    msg.attach( MIMEText(text.encode('utf-8'), 'plain', 'utf-8') )
+
+    for f in files:
+        part = MIMEBase('application', "octet-stream")
+        part.set_payload(f['data'])
+        Encoders.encode_base64(part)
+        part.add_header('Content-Disposition', 'attachment; filename="%s"' % f['name'])
+        msg.attach(part)
+
+    smtp = smtplib.SMTP(server, port)
+    smtp.set_debuglevel(9)
+    if tls:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
+    if auth:
+        smtp.login(username, secret)
+    if len(bcc):
+        smtp.sendmail(send_from, [send_to, bcc], msg.as_string())
+    else:
+        smtp.sendmail(send_from, send_to, msg.as_string())
+    smtp.close()
+
+def sender(callerid=None, date=None, files=list() ):
+    server = 'smtp.gmail.com'
+    port = 587
+    username = 'robot@mydomain.com'
+    secret = '--------mmmm------'
+    sender_list = ['fax@mydomain.com',]
+    bcc = ['bcc@mydomain.com',]
+    send_from = 'robot@mydomain.com'
+    attach = files
+    subject = u'Факс от %s' % (callerid,)
+    text = u'Факс от %s получен %s' % (callerid, date.strftime('%H:%m:%S %d.%M.%Y'))
+
+    reply_to = "=?UTF-8?B?%s?= <reply@mydomain.com>" % (str(MIMEText(u'MyReply Destination'.encode('utf-8'), 'plain', 'utf-8').get_payload()))
+
+    try:
+        send_mail(send_from, sender_list, subject, text, attach, server=server, port=port, username=username, secret=secret, auth=True, tls=True, reply_to = reply_to, bcc=bcc )
+        for f in files:
+            system('rm -f %s' % (f['path']))
+    except:
+        exit(1)
+
+mail = list()
+
+for filename in listdir(faxdir):
+    re = compile('^fax_(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})_(?P<callerid>\d+)_(?P<hour>\d{1,2})-(?P<minute>\d{1,2})-(?P<seconds>\d{1,2}).tiff')
+    if not '.tiff' in filename:
+        continue
+    date = re.search(filename).groupdict()
+    callerid = date.pop('callerid')
+    for k,v in date.items():
+        date[k]=int(v)
+
+    name = filename.replace('.tiff','')
+    date = datetime(date['year'], date['month'], date['day'], date['hour'], date['minute'], date['seconds'])
+
+    density="204x98"
+
+    files = list()
+
+    system("convert -antialias -density %s %s.tiff %s.pdf" % (density, path.join(faxdir,name), path.join(faxdir,name)))
+    tiff = open("%s.tiff" % (path.join(faxdir,name))).read()
+    if path.isfile("%s.pdf" % (path.join(faxdir,name))):
+        pdf = open("%s.pdf" % (path.join(faxdir,name))).read()
+        files.append(dict(name="%s.pdf" % (name), data = pdf, path="%s.pdf" % (path.join(faxdir,name))))
+    files.append(dict(name="%s.tiff" % (name), data = tiff, path="%s.tiff" % (path.join(faxdir,name))))
+
+    mail.append({'date':date, 'callerid':callerid, 'files': files})
+
+for m in mail:
+    sender(date=m['date'], callerid=m['callerid'], files=m['files'])
+
+

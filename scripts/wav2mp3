@@ -1,0 +1,87 @@
+#!/usr/bin/python
+from os import system, makedirs, path, remove
+from sys import argv
+from re import compile
+from psycopg2 import connect as db
+import errno
+import logging
+from os import getpid, getlogin
+from datetime import datetime
+
+logging.basicConfig(filename="/tmp/wav2mp3.log", level=logging.DEBUG)
+
+logging.debug("\t***  START  ***")
+logging.debug("\tARGS: %s" % argv)
+
+#########  Var  #########
+db_table = "telephony_cdr"
+db_name = "asterisk"
+db_user = "asterisk"
+db_passw = "oNeCu8dJ1dGSs"
+db_host = "127.0.0.1"
+path_dir = "/mnt/records"
+
+########## Prog vars ##########
+can_sql = False
+re = compile('/(?P<uniqueid>[\d\.]+).wav')
+
+param = re.search(argv[3]).groupdict()
+
+fdate = datetime.fromtimestamp(float(path.getmtime(argv[1]))).strftime('%Y-%m-%d')
+logging.debug("\tDate: %s, uniqueid: %s" % (fdate, param['uniqueid']))
+save_dir = "%s/%s" % (path_dir, fdate)
+logging.debug("\tSet save dir = %s" % (save_dir))
+cmd_sox = "nice -n 19 sox -M -c 1 %s -c 1 %s %s" % (argv[1], argv[2], argv[3])
+logging.debug("\tCreate command for sox:\n\t\t\"%s\"" % (cmd_sox))
+cmd_lame = "nice -n 19 lame -m d --cbr -b 32 --resample 16 --bitwidth 8 %s %s/%s.mp3" % (argv[3], save_dir, param['uniqueid'])
+logging.debug("\tCreate command for lame:\n\t\t\"%s\"" % (cmd_lame))
+
+sql = "update %s set callrecord='%s/%s.mp3' where uniqueid='%s'" % (db_table, fdate, param['uniqueid'], param['uniqueid'])
+
+###########  Program  ###########
+logging.debug("\tSOX return code: %s" % (system(cmd_sox)))
+
+if not path.isdir(save_dir):
+    logging.debug("\tCreate folder:")
+    try:
+        makedirs(save_dir)
+        logging.debug("\ttry make dir \"%s\"" % (save_dir))
+    except OSError as exc:
+        if exc.errno == errno.EEXIST:
+            logging.error("\tI DON'T CREATE DIR \"%s\"" % (save_dir))
+        else: raise
+
+logging.debug("\tLame return code: %s" % (system(cmd_lame)))
+
+########## Clean old files ##########
+if path.isfile(argv[3]):
+    remove(argv[1])
+    remove(argv[2])
+    logging.debug("\tRemove \"%s\", \"%s\"" % (argv[1], argv[2]))
+    if path.isfile("%s/%s.mp3" % (save_dir, param['uniqueid'])):
+        remove(argv[3])
+        logging.debug("\tAll right, files merge. Remove \"%s\"" % (argv[3]))
+        can_sql=True
+
+########## Insert row ###########
+if can_sql:
+    logging.debug("\tInsert values in %s" % (db_table))
+    try:
+        connect = db("dbname='%s' user='%s' host='%s' password='%s'" % (
+        db_name, db_user,db_host,db_passw))
+        logging.debug("\tConnect to DB is OK!")
+    except:
+        logging.error("\tI can't connect to Database: db=%s, user='%s', host='%s'" % (db_name, db_user, db_host))
+        raise NameError('ConnectionFaled')
+    cursor=connect.cursor()
+    logging.debug("\tCreate cursor")
+    try:
+        cursor.execute(sql)
+        logging.debug("\tExec sql:\n\t\tSQL: \'%s\'" % sql)
+        connect.commit()
+        logging.debug("\tCommit cursor")
+        cursor.close()
+        logging.debug("\tClose cursor")
+    except:
+        logging.error("\tCant't exec SQL:\n\t\tSQL: \'%s\'" % sql)
+logging.debug("\t***  END ***\n")
