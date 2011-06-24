@@ -1,0 +1,15 @@
+$TTL 360      ; 1 day
+@       IN      SOA    ns1.bks-tv.ru. billing.voip. (
+                             {{ date.year }}{{ date.month }}{{ date.day }}{{ serial }}   ; Serial
+                             900          ; Refresh
+                             7200         ; Retry
+                             1209600      ; Expire
+                             86400        ; TTL
+)
+
+@       IN      NS              ns1.bks-tv.ru.
+@       IN      NS              ns2.bks-tv.ru.
+@                       A       77.232.128.89
+
+{% for a in names %}
+{{ a.name }}			A	{{ a.ip }}{% endfor %}

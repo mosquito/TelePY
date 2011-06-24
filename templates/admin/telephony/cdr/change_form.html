@@ -1,0 +1,43 @@
+{% extends "admin/change_form.html" %}
+{% block content %}
+<div style="color: #aaaaaa">(Вызовы нельзя изменять)</div>
+<br>
+<h1>Подробности звонка {{ original }}</h1>
+<ul>
+    <li>Имя Caller ID:	<b>{{ original.clid }}</b></li>
+    <li>Вызывающий номер:	<b>{{ original.src }}</b></li>
+    <li>Вызываемый номер:	<b>{{ original.dst }}</b></li>
+    <li>Контекст:	<b>{{ original.dcontext }}</b></li>
+    <li>Канал:	<b>{{ original.channel }}</b></li>
+    <li>Канал назначения:	<b>{{ original.dstchannel }}</b></li>
+    <li>Последнее приложение:	<b>{{ original.lastapp }}</b></li>
+    <li>Последние данные приложения:	<b>{{ original.lastdata }}</b></li>
+    <li>Начало вызова:	<b>{{ original.start }}</b></li>
+    <li>Начало разговора:	<b>{{ original.answer }}</b></li>
+    <li>Конец вызова:	<b>{{ original.end }}</b></li>
+    <li>Длительность:	<b>{{ original.duration }} сек.</b></li>
+    <li>Длительность передачи голоса:	<b>{{ original.billsec }} сек.</b></li>
+    <li>Состояние:	<b>{{ original.disposition }}</b></li>
+    <li>Флаг биллинга:	<b>{{ original.amaflags }}</b></li>
+    <li>Номер счета:	<b><a href="../../../agent/payers/{{ original.accountcode.id }}">{{ original.accountcode.contract }}</a> <a href="../../../agent/persondata/{{ original.accountcode.person.id }}">{{ original.accountcode.person }}</a></b></li>
+    <li>Адрес счета:	<b>{{ original.accountcode.person.bill_addr }}</b></li>
+    <li>Квартира счета:	<b>{{ original.accountcode.person.bill_flat }}</b></li>
+    <li>Уникальный ID:	<b>{{ original.uniqueid }}</b></li>
+    <li>Поле пользователя:	<b>{{ original.userfield }}</b></li>
+    <li>Зона:   <b><a href="../../zonesabon/{{ original.direction.zone_abon.id }}">{{ original.direction.zone_abon }}</a></b></li>
+    <li>Направление:	<b><a href="../../directions/{{ original.direction.id }}">{{ original.direction }}</a></b></li>
+    <li>Снято денег:	<b>{{ original.cost }}</b></li>
+    <li>Снято времени:	<b>{{ original.time_cost }}</b></li>
+    <li>Стоимость мин.:	<b>{{ original.price }}</b></li>
+
+</ul>
+{% if original.callrecord %}
+<H2>Запись разговора</H2>
+  <object id='audioplayer246' type='application/x-shockwave-flash' data='/media/audio.swf' width='510' height='25' object align='left'>
+    <param name='allowScriptAccess' value='always' />
+    <param name='wmode' value='transparent' />
+    <param name='movie' value='/media/audio.swf' />
+    <param name='flashvars' value='comment=ololo&amp;st=/media/style.txt&amp;file=/media/records/{{ original.callrecord }}' />
+  </object>
+{% endif %}
+{% endblock %}

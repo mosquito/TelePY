@@ -1,0 +1,4 @@
+{% for section, values in data.items %}<{{ section }}>
+{% for param, value in values %}	<{{ param }}>{{ value }}</{{ param }}>
+{% endfor %}</{{ section }}>{% endfor %}
+

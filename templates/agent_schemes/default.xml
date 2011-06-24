@@ -1,0 +1,16 @@
+<data>
+	<payer>
+		<contract>{{ payer.contract }}</contract>
+		<number>{{ payer.number }}</number>
+		<name>{{ payer.person }}</name>
+		<money>{{ payer.money }}</money>
+	</payer>
+	<transaction>
+		<code>{{ transaction.code }}</code>
+		<status>{{ transaction.status }}</status>
+	</transaction>
+	<status>
+		<code>{{ code }}</code>
+		<message>{{ message }}</message>
+	</status>
+</data>
