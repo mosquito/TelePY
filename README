@@ -42,7 +42,7 @@ Integration:
     hostname=localhost
     port=5432
     dbname=asterisk
-    password=oNeCu8dJ1dGSs
+    password=MYPASSWD
     user=asterisk
     table=telephony_cdr
     encoding=UTF8
